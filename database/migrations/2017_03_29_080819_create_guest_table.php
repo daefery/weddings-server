@@ -13,14 +13,16 @@ class CreateGuestTable extends Migration
      */
     public function up()
     {
-      Schema::create('guest', function (Blueprint $table) {
-          $table->increments('id');
-          $table->string('name', 100)->unique();
-          $table->string('email', 50)->unique();
-          $table->string('phone', 20);
-          $table->string('attend', 10);
-          $table->timestamps();
-      });
+        Schema::create('guest', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name', 100)->unique();
+            $table->string('email', 50)->unique();
+            $table->string('phone', 20);
+            $table->string('relation', 20);
+            $table->string('message', 250);
+            $table->string('attend', 10);
+            $table->timestamps();
+        });
     }
 
     /**

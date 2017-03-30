@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/api/v1/guest/{id?}', 'Wedding@index');
+Route::post('/api/v1/guest', 'Wedding@store');
+Route::post('/api/v1/guest/{id}', 'Wedding@update');
+Route::delete('/api/v1/guest/{id}', 'Wedding@destroy');
