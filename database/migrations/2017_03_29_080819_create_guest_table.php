@@ -21,6 +21,7 @@ class CreateGuestTable extends Migration
             $table->string('relation', 20);
             $table->string('message', 250);
             $table->string('attend', 10);
+            $table->string('image', 100);
             $table->timestamps();
         });
     }

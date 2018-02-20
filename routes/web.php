@@ -14,7 +14,17 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/api/v1/guest/{id?}', 'Wedding@index');
-Route::post('/api/v1/guest', 'Wedding@store');
-Route::post('/api/v1/guest/{id}', 'Wedding@update');
-Route::delete('/api/v1/guest/{id}', 'Wedding@destroy');
+
+Route::get('/api/v1/guests/{id?}', 'WeddingController@index');
+Route::post('/api/v1/guests', 'WeddingController@store');
+Route::post('/api/v1/guests/{id}', 'WeddingController@update');
+Route::delete('/api/v1/guests/{id}', 'WeddingController@destroy');
+
+Route::get('/api/v1/section/{id?}', 'SectionController@index');
+Route::post('/api/v1/section', 'SectionController@add');
+Route::post('/api/v1/section/{id}', 'SectionController@update');
+Route::delete('/api/v1/section/{id}', 'SectionController@destroy');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');

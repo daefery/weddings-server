@@ -1,5 +1,11 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
 
+
+// if($_SERVER['HTTP_REFERER'] === 'http://ferydellaswedding.ferde.id/' || $_SERVER['HTTP_REFERER'] === 'http://localhost:4200'){
+//     die('Unauthorized access');
+// }
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
@@ -19,7 +25,7 @@
 |
 */
 
-require __DIR__.'/../bootstrap/autoload.php';
+require __DIR__.'/bootstrap/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +39,7 @@ require __DIR__.'/../bootstrap/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once __DIR__.'/bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
