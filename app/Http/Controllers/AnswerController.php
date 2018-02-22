@@ -2,35 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Question;
+use App\Answer;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 
-class QuestionController extends Controller
+class AnswerController extends Controller
 {
 
     public function index($id = null) {
       if ($id == null) {
-            return Question::orderBy('id', 'desc')->get();
+            return Answer::orderBy('id', 'desc')->get();
         } else {
-            return Question::where('id', $id)->get();
+            return $this->show($id);
         }
     }
 
-    public function getbysection(Request $request){
-        return Question::where('section_id', $request->input('section_id'))->orderBy('id', 'desc')->get();
+    public function getbyquestion(Request $request){
+        return Answer::where('section_id', $request->input('section_id') && 'question_id', $request->input('question_id'))->orderBy('id', 'desc')->get();
     }
 
     public function add(Request $request) {
       $status = false;
       $message = 'success';
-      $sec = new Question;
+      $sec = new Answer;
       try {
           $sec->name = $request->input('name');
-          $sec->grade = $request->input('grade');
+          $sec->value = $request->input('value');
           $sec->section_id = $request->input('section_id');
+          $sec->question_id = $request->input('question_id');
           $sec->save();
           $status = true;
       } catch (Exception $e) {
@@ -42,12 +43,13 @@ class QuestionController extends Controller
     public function update(Request $request, $id) {
       $status = false;
       $message = '';
-      $guest = Question::find($id);
+      $guest = Answer::find($id);
 
       try {
           $sec->name = $request->input('name');
-          $sec->grade = $request->input('grade');
+          $sec->grade = $request->input('value');
           $sec->section_id = $request->input('section_id');
+          $sec->question_id = $request->input('question_id');
           $sec->save();
         $status = true;
       } catch (Exception $e) {
@@ -60,7 +62,7 @@ class QuestionController extends Controller
     public function destroy($id) {
       $status = false;
       $message = '';
-      $guest = Question::find($id);
+      $guest = Answer::find($id);
       if(count($guest) > 0){
         $guest->delete();
         $status = true;
