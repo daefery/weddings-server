@@ -3,9 +3,9 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
 
 
-// if($_SERVER['HTTP_REFERER'] === 'http://ferydellaswedding.ferde.id/' || $_SERVER['HTTP_REFERER'] === 'http://localhost:4200'){
-//     die('Unauthorized access');
-// }
+/*if($_SERVER['HTTP_REFERER'] !== 'http://ferydellaswedding.ferde.id/'){
+    die('Unauthorized access');
+}*/
 /**
  * Laravel - A PHP Framework For Web Artisans
  *

@@ -15,7 +15,7 @@ class SectionController extends Controller
       if ($id == null) {
             return Section::orderBy('id', 'desc')->get();
         } else {
-            return $this->show($id);
+            return Section::where('id', $id)->get();
         }
     }
 

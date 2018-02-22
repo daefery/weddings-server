@@ -33,13 +33,11 @@ class WeddingController extends Controller
      * @return Response
      */
     public function index($id = null) {
-      $te = Guests::orderBy('id', 'desc')->get();
-      print_r($te);
-      // if ($id == null) {
-      //       return Guests::orderBy('id', 'desc')->get();
-      //   } else {
-      //       return $this->show($id);
-      //   }
+      if ($id == null) {
+            return Guests::orderBy('id', 'desc')->get();
+        } else {
+            return $this->show($id);
+        }
     }
 
     /**

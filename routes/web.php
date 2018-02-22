@@ -25,6 +25,12 @@ Route::post('/api/v1/section', 'SectionController@add');
 Route::post('/api/v1/section/{id}', 'SectionController@update');
 Route::delete('/api/v1/section/{id}', 'SectionController@destroy');
 
+Route::get('/api/v1/question/{id?}', 'QuestionController@index');
+Route::post('/api/v1/question', 'QuestionController@add');
+Route::post('/api/v1/questionsection', 'QuestionController@getbysection');
+Route::post('/api/v1/question/{id}', 'QuestionController@update');
+Route::delete('/api/v1/question/{id}', 'QuestionController@destroy');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
