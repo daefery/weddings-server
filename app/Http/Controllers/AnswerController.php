@@ -13,26 +13,26 @@ class AnswerController extends Controller
 
     public function index($id = null) {
       if ($id == null) {
-            return Answer::orderBy('id', 'desc')->get();
+            return Answer::orderBy('updated_at', 'desc')->get();
         } else {
             return $this->show($id);
         }
     }
 
     public function getbyquestion(Request $request){
-        return Answer::where('section_id', $request->input('section_id') && 'question_id', $request->input('question_id'))->orderBy('id', 'desc')->get();
+        return Answer::where('section_id', $request->input('section_id'))->where('question_id', $request->input('question_id'))->orderBy('updated_at', 'desc')->get();
     }
 
     public function add(Request $request) {
       $status = false;
       $message = 'success';
-      $sec = new Answer;
+      $answer = new Answer;
       try {
-          $sec->name = $request->input('name');
-          $sec->value = $request->input('value');
-          $sec->section_id = $request->input('section_id');
-          $sec->question_id = $request->input('question_id');
-          $sec->save();
+          $answer->name = $request->input('name');
+          $answer->value = $request->input('value');
+          $answer->section_id = $request->input('section_id');
+          $answer->question_id = $request->input('question_id');
+          $answer->save();
           $status = true;
       } catch (Exception $e) {
         $message = $e;
@@ -43,14 +43,14 @@ class AnswerController extends Controller
     public function update(Request $request, $id) {
       $status = false;
       $message = '';
-      $guest = Answer::find($id);
+      $answer = Answer::find($id);
 
       try {
-          $sec->name = $request->input('name');
-          $sec->grade = $request->input('value');
-          $sec->section_id = $request->input('section_id');
-          $sec->question_id = $request->input('question_id');
-          $sec->save();
+          $answer->name = $request->input('name');
+          $answer->value = $request->input('value');
+          $answer->section_id = $request->input('section_id');
+          $answer->question_id = $request->input('question_id');
+          $answer->save();
         $status = true;
       } catch (Exception $e) {
         $message = $e;
@@ -62,9 +62,9 @@ class AnswerController extends Controller
     public function destroy($id) {
       $status = false;
       $message = '';
-      $guest = Answer::find($id);
-      if(count($guest) > 0){
-        $guest->delete();
+      $answer = Answer::find($id);
+      if(count($answer) > 0){
+        $answer->delete();
         $status = true;
       }else{
         $message = 'failed to delete, no data found.';

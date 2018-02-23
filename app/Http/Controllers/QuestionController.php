@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Question;
+use App\Answer;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -13,25 +14,25 @@ class QuestionController extends Controller
 
     public function index($id = null) {
       if ($id == null) {
-            return Question::orderBy('id', 'desc')->get();
+            return Question::orderBy('updated_at', 'desc')->get();
         } else {
             return Question::where('id', $id)->get();
         }
     }
 
     public function getbysection(Request $request){
-        return Question::where('section_id', $request->input('section_id'))->orderBy('id', 'desc')->get();
+        return Question::where('section_id', $request->input('section_id'))->orderBy('updated_at', 'desc')->get();
     }
 
     public function add(Request $request) {
       $status = false;
       $message = 'success';
-      $sec = new Question;
+      $question = new Question;
       try {
-          $sec->name = $request->input('name');
-          $sec->grade = $request->input('grade');
-          $sec->section_id = $request->input('section_id');
-          $sec->save();
+          $question->name = $request->input('name');
+          $question->grade = $request->input('grade');
+          $question->section_id = $request->input('section_id');
+          $question->save();
           $status = true;
       } catch (Exception $e) {
         $message = $e;
@@ -42,13 +43,13 @@ class QuestionController extends Controller
     public function update(Request $request, $id) {
       $status = false;
       $message = '';
-      $guest = Question::find($id);
+      $question = Question::find($id);
 
       try {
-          $sec->name = $request->input('name');
-          $sec->grade = $request->input('grade');
-          $sec->section_id = $request->input('section_id');
-          $sec->save();
+          $question->name = $request->input('name');
+          $question->grade = $request->input('grade');
+          $question->section_id = $request->input('section_id');
+          $question->save();
         $status = true;
       } catch (Exception $e) {
         $message = $e;
@@ -60,9 +61,18 @@ class QuestionController extends Controller
     public function destroy($id) {
       $status = false;
       $message = '';
-      $guest = Question::find($id);
-      if(count($guest) > 0){
-        $guest->delete();
+      $question = Question::find($id);
+      $answer = Answer::where('question_id', $question->id)->get();
+
+      if(count($answer) > 0){
+        foreach ($answer as $p) {
+          $as_delete = Answer::find($p->id);
+          $as_delete->delete();
+        }  
+      }
+
+      if(count($question) > 0){
+        $question->delete();
         $status = true;
       }else{
         $message = 'failed to delete, no data found.';

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Section;
+use App\Answer;
+use App\Question;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -13,7 +15,7 @@ class SectionController extends Controller
 
     public function index($id = null) {
       if ($id == null) {
-            return Section::orderBy('id', 'desc')->get();
+            return Section::orderBy('updated_at', 'desc')->get();
         } else {
             return Section::where('id', $id)->get();
         }
@@ -58,9 +60,26 @@ class SectionController extends Controller
     public function destroy($id) {
       $status = false;
       $message = '';
-      $guest = Section::find($id);
-      if(count($guest) > 0){
-        $guest->delete();
+      $sec = Section::find($id);
+      $qs = Question::where('section_id', $sec->id)->get();
+      $answer = Answer::where('section_id', $sec->id)->get();
+      
+      if(count($qs) > 0){
+        foreach ($qs as $p) {
+          $qs_delete = Question::find($p->id);
+          $qs_delete->delete();
+        }  
+      }
+
+      if(count($answer) > 0){
+        foreach ($answer as $p) {
+          $as_delete = Answer::find($p->id);
+          $as_delete->delete();
+        }  
+      }
+      
+      if(count($sec) > 0){
+        $sec->delete();
         $status = true;
       }else{
         $message = 'failed to delete, no data found.';
