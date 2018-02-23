@@ -41,9 +41,16 @@ class SectionController extends Controller
     public function update(Request $request, $id) {
       $status = false;
       $message = '';
-      $guest = Section::find($id);
-
+      $sec = Section::find($id);
+      $answer = Answer::where('section_id', $sec->id)->get();
       try {
+          if($sec->has_generic_answer=='true' && count($answer) > 0){
+            foreach ($answer as $p) {
+              $as_delete = Answer::find($p->id);
+              $as_delete->delete();
+            }  
+          }
+
           $sec->name = $request->input('name');
           $sec->description = $request->input('description');
           $sec->has_generic_answer = $request->input('has_generic_answer');
